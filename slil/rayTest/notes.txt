@@ -1,0 +1,44 @@
+# These are development notes and script to run a ray.io cluster on the uni compute cluster.
+# The job will report an IP address to connect to once it has started.
+
+
+
+pip install -U "ray[default] @ LINK_TO_WHEEL.whl"
+
+
+ssh s2952109@gc-prd-hpclogin1.rcs.griffith.edu.au
+source s3proxy.sh  #To gain internet access on the login node
+module load anaconda3/2021.11
+conda create --name s2952109-cpu python=3.8.3 matplotlib pandas ipywidgets ray-default
+source activate s2952109-cpu
+#To see the packages in your Conda environment, run this command
+conda list
+conda deactivate
+exit
+
+# on compute node
+module load anaconda3/2021.11
+source activate s2952109-cpu
+
+pip install ray[default]
+conda install --name s2952109-cpu -c conda-forge scipy pyvista 
+conda install --name s2952109-cpu -c conda-forge optimparallel
+conda install --name s2952109-cpu -c conda-forge mystic
+conda install --name s2952109-cpu -c conda-forge pathos
+
+/export/home/s2952109/.conda/envs/s2952109-cpu/bin/pip install optimparallel
+/export/home/s2952109/.conda/envs/s2952109-cpu/bin/pip install python-fcl
+/export/home/s2952109/.conda/envs/s2952109-cpu/bin/pip install --upgrade --force-reinstall pyvista
+
+conda create --name s2952109-cpu -c conda-forge python=3.8.3 matplotlib pandas ipywidgets ray-default
+
+ssh -N -f -L 10001:n017:10001 s2952109@gc-prd-hpclogin1.rcs.griffith.edu.au
+
+
+ray start --head --include-dashboard=false
+
+
+# Don't do, too complex!
+ssh -i .ssh\6dof_private2 Griffith@100.99.142.105
+cd "OneDrive - Griffith University\Projects\MTP - SLIL project\cadaver experiements\data processing vscode"
+ray start --head --block --temp-dir="C:\Users\Griffith\Desktop\RayLogs" --node-ip-address=100.99.142.105

@@ -1,0 +1,52 @@
+#!/bin/sh
+#PBS -m abe
+##PBS -M alastair.quinn@griffith.edu.au
+#PBS -N AQ_RAY
+#PBS -q routeq
+#####PBS -W group_list=gaussian
+#PBS -l walltime=48:00:00
+#PBS -l select=1:ncpus=12:mem=32gb:mpiprocs=1
+###source $HOME/.bashrc
+
+
+MYSCRATCH=/scratch/s2952109
+SPA=$MYSCRATCH/ray
+
+cd $MYSCRATCH
+echo Running on host `hostname`
+module load anaconda3/2021.11
+source activate s2952109-cpu
+echo | module list
+
+echo Working directory `pwd`
+echo Files `ls`
+
+# This finds out the number of nodes we have
+NP=$(wc -l $PBS_NODEFILE | awk '{print $1}')
+echo "Total CPU count = $NP"
+
+echo "Starting job"
+
+# get tunneling info
+XDG_RUNTIME_DIR=""
+node=$(hostname -s)
+user=$(whoami)
+cluster="gc-prd-hpclogin1"
+port=10001
+##choose your own unique port between 8000 and 9999
+
+cd $PBS_O_WORKDIR
+# print tunneling instructions to tunnel.$PBS_JOBID.txt
+JJID=`echo $PBS_JOBID|sed 's/\.gc-prd-hpcadm//g'`
+echo -e "
+Command to create ssh tunnel:
+ssh -N -f -L ${port}:${node}:${port} ${user}@${cluster}.rcs.griffith.edu.au
+
+Connect using
+import ray
+ray.init(address='ray://localhost:${port}')" >tunnel.$JJID.txt
+
+ray start --head --include-dashboard=false --block --temp-dir="${SPA}"
+
+#sleep 1
+echo "Done with jobScript"

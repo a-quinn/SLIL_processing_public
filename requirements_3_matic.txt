@@ -1,0 +1,10 @@
+
+# Install modules
+numpy==1.24.2
+PyQt5==5.15.9
+
+# for 3-matic and 3D Slicer
+rpyc==6.0.0
+
+# for 3-matic
+jedi==0.9.0

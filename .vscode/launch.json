@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            //"console": "integratedTerminal"
+            "console": "internalConsole"
+        },
+        {
+            "name": "Python C++ Debug",
+            "type": "pythoncpp",
+            "request": "launch",
+            "pythonConfig": "default",
+            "cppConfig": "default (win) Attach",
+            "entirePythonConfig": {
+                "name": "Python: Current File",
+                "type": "python",
+                "request": "launch",
+                "program": "${file}",
+                "console": "internalConsole",
+                "justMyCode": false
+            },
+            "entireCppConfig": {
+                "name": "(gdb) Attach",
+                "type": "cppvsdbg",
+                "request": "attach",
+                "processId": "",
+                "justMyCode": false
+            }
+          }
+    ]
+}
