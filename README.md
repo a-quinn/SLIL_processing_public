@@ -100,16 +100,16 @@ However all code should work on a single machine by default without manually sta
 The files `dev_v....` and `plot_ ...` contain functions for debugging or development of an idea which never finished. Each file is quite messy and the cell for completing that step is usually in the first few cells. These have been left in for the curious, they are not required to run the pipeline.
 
 ### dev_v_final.py
-The final pipeline can be run using the [dev_v_final.py](/dev_v_final.py) script, all data is stored under the `data` directory, with outputs put in the `data\data_processed_0` directory. This process can take between 3 hours and 7 hours depending on the computers compute speed and processor count.
+The final pipeline can be run using the [dev_v_final.py](/dev_v_final.py) script, all data is stored under the `data` directory, with outputs put in the `data/data_processed_0` directory. This process can take between 3 hours and 7 hours depending on the computers compute speed and processor count.
 
 ### 1 - Setup processing data
 
 #### Cleaned Motion Capture
-The raw motion capture files have been manually checked and cleaned using a custom program, [Interactive_MoCap_editor_v4.py](app\MoCap_editor\Interactive_MoCap_editor_v4.py). The raw/original files are in [data_original.zip](data\data_original.zip), and the data passed into the pipeline are under [data\data_cleaned](data\data_cleaned).
+The raw motion capture files have been manually checked and cleaned using a custom program, [Interactive_MoCap_editor_v4.py](app/MoCap_editor/Interactive_MoCap_editor_v4.py). The raw/original files are in [data_original.zip](data/data_original.zip), and the data passed into the pipeline are under [data/data_cleaned](data/data_cleaned).
 
 #### Construct 3-matic environments for each model/experiment/hand
 
-For each experiment, a single 3D mesh environment was created, containing the neutrally-aligned bones, install-positioned scaffold (redacted from public domain), marker-pin installation guide, and resulting expected marker pin locations. These 3D mesh environments are 3-matic project files located under [data\models_3_matic\EXPERIMENT_ID\version2.mxp](data\models_3_matic\11525\version2.mxp). These files cannot be generated automatically as some processes to extract variables of interest still require user input as the 3-matic API is only so good.
+For each experiment, a single 3D mesh environment was created, containing the neutrally-aligned bones, install-positioned scaffold (redacted from public domain), marker-pin installation guide, and resulting expected marker pin locations. These 3D mesh environments are 3-matic project files located under [data/models_3_matic/EXPERIMENT_ID/version2.mxp](data/models_3_matic/11525/version2.mxp). These files cannot be generated automatically as some processes to extract variables of interest still require user input as the 3-matic API is only so good.
 
 #### 1.1 - Setup output directory structure and OpenSim models
 There are three OpenSim models per experiment (wrist_normal.osim, wrist_cut.osim, wrist_scaffold.osim) as the motion capture markers had to be removed and re-attached at least twice during the experiment to allow surgical processes.
@@ -132,13 +132,13 @@ There were many attempts at aligning the marker data to the models (contained in
 There is an external executable written with OpenSim C++ API which parallelises the inverse kinematics and point kinematics. It is the fastest method to run IK.
 
 ### 4 - Tabulate results and generate graphs
-Output graphics are found in the [data\data_processed_0\outputs\graphics](data\data_processed_0\outputs\graphics) directory.
-Discrete results from the motion data are saved in [data\data_processed_0\outputs\discrete_results.xlsx](data\data_processed_0\outputs\discrete_results.xlsx).
+Output graphics are found in the [data/data_processed_0/outputs/graphics](data/data_processed_0/outputs/graphics) directory.
+Discrete results from the motion data are saved in [data/data_processed_0/outputs/discrete_results.xlsx](data/data_processed_0/outputs/discrete_results.xlsx).
 
 ### 5 - Radiographic Measures
 
-The radiographic measures were performed manually using a custom GUI, located [app\radiograph_converter\radiograph_convert.py](app\radiograph_converter\radiograph_convert.py). This GUI uses kinematic files, OpenSim models, and the bone mesh files to replicate a radiographic imaging system. You can scroll through time but the measures for the publication are only performed on the first frame of each trial to capture static poses.
-The outputs were saved to [data\radiography_measures.xlsx](data\radiography_measures.xlsx).
+The radiographic measures were performed manually using a custom GUI, located [app/radiograph_converter/radiograph_convert.py](app/radiograph_converter/radiograph_convert.py). This GUI uses kinematic files, OpenSim models, and the bone mesh files to replicate a radiographic imaging system. You can scroll through time but the measures for the publication are only performed on the first frame of each trial to capture static poses.
+The outputs were saved to [data/radiography_measures.xlsx](data/radiography_measures.xlsx).
 
 ### Other technical details
 The [data_configs.py](/slil/common/data_configs.py) file contains all publishable (i.e., excluding redacted content) details of each experiment. Including: trial names, marker pin arrangement, scaffold dimensions, and names of supporting meshes.
